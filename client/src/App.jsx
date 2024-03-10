@@ -1,30 +1,29 @@
-import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import NoPage from "./pages/NoPage";
+import Layout from "./pages/Layout";
+import AuthLayout from "./pages/auth/AuthLayout";
+import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login";
+import { UserContextProvider } from "./UserContext";
+
 function App() {
-  const [message, setMessage] = useState(null);
-
-  useEffect(() => {
-    function getMessage() {
-      fetch("http://localhost:3001/api")
-        .then((res) => {
-          console.log("response = ", res);
-          if (!res.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return res.json();
-        })
-        .then((data) => {
-          alert("response received");
-          console.log("response =>", data.message);
-          setMessage(data.message);
-        })
-        .catch((error) => {
-          console.log("Error occurred while fetching data:", error);
-        });
-    }
-    getMessage();
-  }, []);
-
-  return <h1 className="text-3xl font-bold underline">Message : {message}</h1>;
+  return (
+    <UserContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="*" element={<NoPage />} />
+            <Route index element={<Home />} />
+            <Route element={<AuthLayout />}>
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+            </Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </UserContextProvider>
+  );
 }
 
 export default App;
