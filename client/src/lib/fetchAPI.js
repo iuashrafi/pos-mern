@@ -10,6 +10,7 @@ const fetchAPI = async (url, options = {}) => {
     ...defaultOptions,
     ...options,
   };
+  // console.log("requestoptions=", requestOptions);
   const apiUrl = baseURL + url;
   try {
     const response = await fetch(apiUrl, requestOptions);

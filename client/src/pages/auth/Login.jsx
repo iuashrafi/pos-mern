@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { LoginSchema } from "../../lib/schemas";
 import fetchAPI from "../../lib/fetchAPI";
+import { UserContext } from "../../UserContext";
 export const Login = () => {
+  // const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
@@ -25,6 +29,9 @@ export const Login = () => {
           console.log("Login successful:", data);
           setSuccess("Login successfully! Redirecting...");
           formik.resetForm();
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
         })
         .catch((error) => {
           console.error("Error during logging in:", error);
