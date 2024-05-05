@@ -4,11 +4,18 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
+// environment variables
 const PORT = process.env.PORT || 3002;
 const MONGO_URL = process.env.MONGO_URL;
 
 // import routes
 const authRoutes = require("./routes/authRoutes");
+const productRoutes = require("./routes/productRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const accountRoutes = require("./routes/accountRoutes");
+
+// import middlewares
+const verifyToken = require("./middlewares/verifyToken");
 
 const app = express();
 
@@ -35,6 +42,10 @@ app.use(
 app.use(express.json()); // Parse JSON data
 app.use(express.urlencoded({ extended: false })); // Parse URL-encoded data
 app.use(cookieParser()); // Use cookie-parser middleware
+app.use("/uploads", express.static("uploads"));
+
+// this will apply verifyToken globally
+// app.use(verifyToken);
 
 // Connect to mongoodb database
 mongoose
@@ -46,6 +57,9 @@ mongoose
 
 // routes
 app.use("/api/auth", authRoutes);
+app.use("/api/product", productRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/accounts", accountRoutes);
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello World from server!" });
