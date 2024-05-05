@@ -2,8 +2,12 @@ import { useContext } from "react";
 import { UserContext } from "../UserContext";
 
 const Home = () => {
-  const user = useContext(UserContext)?.user;
-  console.log("current user(context)=", user);
+  const { user, ready } = useContext(UserContext);
+
+  if (!ready) {
+    return <p className="p-8 text-lg">Loading...</p>;
+  }
+
   return (
     <div>
       Home page/marketing page <br />

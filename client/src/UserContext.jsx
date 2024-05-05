@@ -12,6 +12,7 @@ export const UserContextProvider = ({ children }) => {
     })
       .then((data) => {
         setUser(data);
+        setReady(true);
       })
       .catch((error) => {
         console.error("Error while fetching user state:", error);
