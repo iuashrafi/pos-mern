@@ -4,19 +4,15 @@ const ProductCard = ({ product: p, handleAddToCart }) => {
   return (
     <div className="card card-compact w-full bg-base-100 card-bordered">
       <figure>
-        <img
-          src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-          alt="Shoes"
-        />
-        {/* <img src={BACKEND_URL + "/" + p.image_url[0]} alt={p.name} /> */}
+        <img src={BACKEND_URL + "/" + p.image_url[0]} alt={p.name} />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{p.name}</h2>
         <p>{p.description}</p>
-        <div className="space-x-2">
+        {/* <div className="space-x-2">
           <span className="badge badge-secondary">{p.category}</span>
           <span className="badge badge-accent">{p.category}</span>
-        </div>
+        </div> */}
         <div className="card-actions justify-end">
           <button
             className="btn btn-primary"
@@ -24,6 +20,7 @@ const ProductCard = ({ product: p, handleAddToCart }) => {
               handleAddToCart({
                 id: p._id,
                 name: p.name,
+                image_url: p.image_url[0],
                 qt: 1,
                 price: p.price,
               })
