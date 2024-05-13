@@ -9,6 +9,8 @@ import {
 } from "../slices/cartSlice";
 import fetchAPI from "../lib/fetchAPI";
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import CartItem from "./CartItem";
+import { calculateTotal } from "../lib/helper";
 const CartContent = () => {
   const user = useCurrentUser();
   console.log("user=", user);
@@ -47,8 +49,8 @@ const CartContent = () => {
     }
   };
   return (
-    <div>
-      <h1>Cart</h1>
+    <div className="space-y-4">
+      <h1 className="text-xl font-semibold">Cart</h1>
       <form className="space-y-3 mb-3">
         <input
           type="text"
@@ -59,57 +61,46 @@ const CartContent = () => {
           onChange={(e) => {
             setCustomer((prev) => ({ ...prev, name: e.target.value }));
           }}
-          className="input input-bordered w-full max-w-xs input-sm"
+          className="input input-bordered w-full max-w-xs"
         />
         <input
           type="text"
           name="phone"
           id="phone"
-          placeholder="phone number"
+          placeholder="Phone number"
           value={customer.phone}
           onChange={(e) => {
             setCustomer((prev) => ({ ...prev, phone: e.target.value }));
           }}
-          className="input input-bordered w-full max-w-xs input-sm"
+          className="input input-bordered w-full max-w-xs"
         />
         <button
           type="submit"
           onClick={handleCustomerSubmit}
-          className="btn btn-sm"
+          className="btn btn-neutral"
         >
-          Save
+          Set Customer
         </button>
       </form>
-      <h1>Items:</h1>
+
+      <h1 className="text-xl font-semibold">Cart Items : </h1>
       <ul className="space-y-2">
         {cartItems.map((item, index) => (
-          <li key={index} className="bg-gray-50 py-3 px-2 border rounded-md">
-            <div>{item.name}</div>
-
-            <div>
-              qt:{" "}
-              <span
-                onClick={() => {
-                  dispatch(decreaseQt(item));
-                }}
-              >
-                -
-              </span>{" "}
-              {item.qt}{" "}
-              <span
-                onClick={() => {
-                  dispatch(increaseQt(item));
-                }}
-              >
-                +
-              </span>
-            </div>
-          </li>
+          <CartItem
+            key={index}
+            item={item}
+            index={index}
+            dispatch={dispatch}
+            increaseQt={increaseQt}
+            decreaseQt={decreaseQt}
+          />
         ))}
       </ul>
 
-      <div>Total : $$$</div>
-      <button className="btn btn-primary btn-sm mt-4" onClick={handleOrder}>
+      <h1 className="text-xl font-semibold">
+        Total : $ {calculateTotal(cartItems)}
+      </h1>
+      <button className="btn btn-primary mt-4" onClick={handleOrder}>
         Place Order
       </button>
     </div>
