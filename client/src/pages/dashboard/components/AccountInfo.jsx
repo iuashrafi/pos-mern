@@ -6,8 +6,8 @@ const AccountInfo = () => {
   return (
     <div className="card">
       <div className="card-body text-xl font-semibold">
-        Hey, {user.name} !<br />
-        You are logged in as {user.user_role}
+        Hey, {user?.name} !<br />
+        You are logged in as {user?.user_role}
       </div>
     </div>
   );

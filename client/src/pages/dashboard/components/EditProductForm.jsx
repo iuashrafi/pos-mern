@@ -53,58 +53,53 @@ const EditProductForm = ({ product: p }) => {
     },
   });
   return (
-    <div>
-      Product id = {p._id}
-      <br />
-      <form onSubmit={formik.handleSubmit}>
-        <h1 className="text-xl font-semibold">Edit Product</h1>
-
-        <label className="form-control w-full max-w-xs">
+    <form onSubmit={formik.handleSubmit}>
+      <label className="form-control w-full max-w-xs">
+        <div className="label">
+          <span className="label-text">Product name</span>
+        </div>
+        <input
+          type="text"
+          placeholder="Name"
+          className="input input-bordered input-accent w-full max-w-xs"
+          {...formik.getFieldProps("productName")}
+        />
+        {formik.touched.productName && formik.errors.productName ? (
           <div className="label">
-            <span className="label-text">Product name</span>
+            <span className="label-text-alt text-error">
+              <span>{formik.errors.productName}</span>
+            </span>
           </div>
-          <input
-            type="text"
-            placeholder="Name"
-            className="input input-bordered input-accent w-full max-w-xs"
-            {...formik.getFieldProps("productName")}
-          />
-          {formik.touched.productName && formik.errors.productName ? (
-            <div className="label">
-              <span className="label-text-alt text-error">
-                <span>{formik.errors.productName}</span>
-              </span>
-            </div>
-          ) : null}
-        </label>
+        ) : null}
+      </label>
 
-        <label className="form-control w-full max-w-xs">
+      <label className="form-control w-full max-w-xs">
+        <div className="label">
+          <span className="label-text">Product Category</span>
+        </div>
+        <select
+          className="select select-accent w-full max-w-xs"
+          {...formik.getFieldProps("productCategory")}
+          defaultValue=""
+        >
+          <option disabled value="">
+            Select Category
+          </option>
+          <option value="Dessert">Dessert</option>
+          <option value="Breakfast">Breakfast</option>
+          <option value="Lunch">Lunch</option>
+          <option value="Dinner">Dinner</option>
+        </select>
+        {formik.touched.productCategory && formik.errors.productCategory ? (
           <div className="label">
-            <span className="label-text">Product Category</span>
+            <span className="label-text-alt text-error">
+              <span>{formik.errors.productCategory}</span>
+            </span>
           </div>
-          <select
-            className="select select-accent w-full max-w-xs"
-            {...formik.getFieldProps("productCategory")}
-            defaultValue=""
-          >
-            <option disabled value="">
-              Select Category
-            </option>
-            <option value="Dessert">Dessert</option>
-            <option value="Breakfast">Breakfast</option>
-            <option value="Lunch">Lunch</option>
-            <option value="Dinner">Dinner</option>
-          </select>
-          {formik.touched.productCategory && formik.errors.productCategory ? (
-            <div className="label">
-              <span className="label-text-alt text-error">
-                <span>{formik.errors.productCategory}</span>
-              </span>
-            </div>
-          ) : null}
-        </label>
+        ) : null}
+      </label>
 
-        {/* <label className="form-control w-full max-w-xs">
+      {/* <label className="form-control w-full max-w-xs">
           <div className="label">
             <span className="label-text">Product Image</span>
           </div>
@@ -127,36 +122,35 @@ const EditProductForm = ({ product: p }) => {
             </div>
           ) : null}
         </label> */}
-        {/* display images here */}
-        <div>
-          {/* <Thumbnail file={uploadedImage} /> */}
-          <ThumbnailWithImage product={p} />
-        </div>
+      {/* display images here */}
+      <div>
+        {/* <Thumbnail file={uploadedImage} /> */}
+        <ThumbnailWithImage product={p} />
+      </div>
 
-        <label className="form-control w-full max-w-xs">
+      <label className="form-control w-full max-w-xs">
+        <div className="label">
+          <span className="label-text">Product Description</span>
+        </div>
+        <textarea
+          className="textarea textarea-bordered textarea-accent h-24"
+          placeholder="Description"
+          {...formik.getFieldProps("productDesc")}
+        ></textarea>
+        {formik.touched.productDesc && formik.errors.productDesc ? (
           <div className="label">
-            <span className="label-text">Product Description</span>
+            <span className="label-text-alt text-error">
+              <span>{formik.errors.productDesc}</span>
+            </span>
           </div>
-          <textarea
-            className="textarea textarea-bordered textarea-accent h-24"
-            placeholder="Description"
-            {...formik.getFieldProps("productDesc")}
-          ></textarea>
-          {formik.touched.productDesc && formik.errors.productDesc ? (
-            <div className="label">
-              <span className="label-text-alt text-error">
-                <span>{formik.errors.productDesc}</span>
-              </span>
-            </div>
-          ) : null}
-        </label>
-        <button type="submit" className="btn btn-accent text-white">
-          Save
-        </button>
-        {success && <Message message={success} />}
-        {error && <Message message={error} type="error" />}
-      </form>
-    </div>
+        ) : null}
+      </label>
+      <button type="submit" className="btn btn-accent text-white">
+        Save
+      </button>
+      {success && <Message message={success} />}
+      {error && <Message message={error} type="error" />}
+    </form>
   );
 };
 

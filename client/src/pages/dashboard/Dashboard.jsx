@@ -1,21 +1,21 @@
 import { Link } from "react-router-dom";
 import AccountInfo from "./components/AccountInfo";
-
+import { useContext } from "react";
+import { UserContext } from "../../UserContext";
+import { dashboardFeatures } from "../../data";
 const Dashboard = () => {
-  const features = [
-    { display_name: "Shop", link: "/shop" },
-    { display_name: "Add Product", link: "/add-product" },
-    { display_name: "Edit/Delete Products", link: "/display-products" },
-    { display_name: "Orders", link: "/orders" },
-    { display_name: "Accounts", link: "/accounts" },
-  ];
+  const { user } = useContext(UserContext);
+
+  const userFeatures = dashboardFeatures.filter((feature) =>
+    feature.accessBy.includes(user?.user_role)
+  );
   return (
     <div className="p-8 space-y-3">
       <h1 className="text-3xl font-semibold">Dashboard</h1>
       <AccountInfo />
 
       <div className="grid grid-cols-12 gap-3">
-        {features.map((feature, index) => (
+        {userFeatures.map((feature, index) => (
           <Link
             key={index}
             to={feature.link}

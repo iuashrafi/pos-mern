@@ -1,10 +1,16 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useCurrentUser } from "../../hooks/useCurrentUser";
+import { useContext, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { UserContext } from "../../UserContext";
 const AuthLayout = () => {
-  const user = useCurrentUser();
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
+  const navigate = useNavigate();
+
+  const { user, ready } = useContext(UserContext);
+  useEffect(() => {
+    if (!user && ready) {
+      navigate("/login");
+    }
+  }, [user, ready, navigate]);
+
   return (
     <div className="w-full bg-blue-300 p-8">
       <Outlet />
