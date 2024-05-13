@@ -13,6 +13,13 @@ export const RegisterSchema = Yup.object({
     .oneOf([Yup.ref("password"), null], "Passwords must match"),
 });
 
+export const LoginSchema = Yup.object({
+  email: Yup.string().email("Invalid email address").required("Required"),
+  password: Yup.string()
+    .min(6, "Must be atleast 6 characters")
+    .required("Required"),
+});
+
 export const SubAccountSchema = Yup.object({
   name: Yup.string()
     .min(3, "Must be atleast 3 characters")
@@ -27,11 +34,12 @@ export const SubAccountSchema = Yup.object({
   user_role: Yup.string().required("Required"),
 });
 
-export const LoginSchema = Yup.object({
-  email: Yup.string().email("Invalid email address").required("Required"),
-  password: Yup.string()
-    .min(6, "Must be atleast 6 characters")
+export const EditSubAccountSchema = Yup.object({
+  name: Yup.string()
+    .min(3, "Must be atleast 3 characters")
     .required("Required"),
+  email: Yup.string().email("Invalid email address").required("Required"),
+  user_role: Yup.string().required("Required"),
 });
 
 export const ProductSchema = Yup.object({

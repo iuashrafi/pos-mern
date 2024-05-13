@@ -12,7 +12,10 @@ export const UserContextProvider = ({ children }) => {
     })
       .then((data) => {
         setUser(data);
-        setReady(true);
+        // remove timer later
+        setTimeout(() => {
+          setReady(true);
+        }, 5000);
       })
       .catch((error) => {
         console.error("Error while fetching user state:", error);

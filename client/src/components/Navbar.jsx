@@ -2,8 +2,6 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BRAND_NAME } from "../data";
-import { useCurrentUser } from "../hooks/useCurrentUser";
-import CartIcon from "./CartIcon";
 import CartContent from "./CartContent";
 import fetchAPI from "../lib/fetchAPI";
 import { UserContext } from "../UserContext";
@@ -47,23 +45,22 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content mt-3  z-50 p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link to="/shop">Shop</Link>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
+            {user?.user_role === "ADMIN" && (
+              <li>
+                <Link to="/shop">Shop</Link>
+              </li>
+            )}
             <li>
               <Link to="/orders">Orders</Link>
             </li>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-            <li>
-              <Link to="/add-product">Add Products</Link>
-            </li>
-            <li>
-              <Link to="/display-products">Display Products</Link>
-            </li>
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-normal">
+        <Link
+          to={user ? "/dashboard" : "/"}
+          className="btn btn-ghost text-normal"
+        >
           {BRAND_NAME}
         </Link>
       </div>
@@ -80,17 +77,14 @@ const Navbar = () => {
         )}
         {user && (
           <>
-            {/* <CartIcon /> */}
-
             <div className="drawer drawer-end">
               <input
-                id="my-drawer-4"
+                id="cart-drawer"
                 type="checkbox"
                 className="drawer-toggle"
               />
               <div className="drawer-content">
-                {/* Page content here */}
-                <label htmlFor="my-drawer-4" className="drawer-button btn">
+                <label htmlFor="cart-drawer" className="drawer-button btn">
                   <div className="indicator">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +108,7 @@ const Navbar = () => {
               </div>
               <div className="drawer-side">
                 <label
-                  htmlFor="my-drawer-4"
+                  htmlFor="cart-drawer"
                   aria-label="close sidebar"
                   className="drawer-overlay"
                 ></label>
@@ -130,11 +124,8 @@ const Navbar = () => {
                 role="button"
                 className="btn btn-ghost btn-circle avatar"
               >
-                <div className="w-10 rounded-full">
-                  <img
-                    alt="Tailwind CSS Navbar component"
-                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                  />
+                <div className="w-10 rounded-full bg-secondary/50   ">
+                  <span className="text-lg block mt-1">{user?.name[0]}</span>
                 </div>
               </div>
               <ul
