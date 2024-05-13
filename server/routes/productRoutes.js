@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ProductModel = require("../models/ProductModel");
 const multer = require("multer");
+const verifyToken = require("../middlewares/verifyToken");
 
 /**
  * Creating a product
@@ -79,6 +80,38 @@ router.put("/edit/:productId", async (req, res) => {
   } catch (error) {
     console.error("Error updating product:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+/**
+ * @desc  Delete a product
+ */
+router.delete("/:productId", verifyToken, async (req, res) => {
+  const productId = req.params.productId;
+  const userId = req.decodedToken.userId;
+  try {
+    const product = await ProductModel.findOne({
+      _id: productId,
+      $or: [
+        { user_id: userId }, // Check if userId matches product's user_id
+        { owner_id: userId }, // Check if userId matches product's owner_id
+      ],
+    });
+
+    // Check if the product exists and the user is authorized to delete it
+    if (!product) {
+      // If product is not found or user is not authorized, send a 404 Not Found response
+      return res
+        .status(404)
+        .json({ message: "Product not found or unauthorized" });
+    }
+
+    // If product is found and user is authorized, delete it
+    await ProductModel.findByIdAndDelete(productId);
+    // Send a success response
+    return res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
     },
     password: { type: String, required: [true, "Password is required."] },
     name: { type: String, required: [true, "Name is required."] },
-    username: { type: String }, // Optional username field
+    username: { type: String }, // Optional username field - for the future use
     user_role: {
       type: String,
       required: [true, "Please select a role"],
@@ -35,6 +35,14 @@ const userSchema = new mongoose.Schema(
       default: "ADMIN",
     },
     emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isDeactivated: {
+      type: Boolean,
+      default: false,
+    },
+    isDeleted: {
       type: Boolean,
       default: false,
     },

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Order = require("../models/OrderModel");
+const { notifyOrders } = require("../websockets/websocketSetup");
 
 /**
  * @desc Placing an order
@@ -22,6 +23,9 @@ router.post("/", async (req, res) => {
     // Create
     const newOrder = new Order(orderData);
     await newOrder.save();
+
+    // broadcast the new order to all the connected Websockets clients
+    notifyOrders({ action: "new_order", newOrder });
 
     res
       .status(201)
@@ -99,6 +103,10 @@ router.put("/update_status/:orderId", async (req, res) => {
     // Update the status of the order
     order.status = status;
     await order.save();
+
+    // broadcast the updated order to all the connected Websockets clients
+    // currently we are updating only the order's status
+    notifyOrders({ action: "updated_order", newOrder: order }); // here, newOrder is a misnomer
 
     return res.json({ message: "Order status updated successfully", order });
   } catch (error) {

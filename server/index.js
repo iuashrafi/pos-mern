@@ -17,6 +17,9 @@ const accountRoutes = require("./routes/accountRoutes");
 // import middlewares
 const verifyToken = require("./middlewares/verifyToken");
 
+// websockets
+const { createWebSocketServer } = require("./websockets/websocketSetup");
+
 const app = express();
 
 // middlewares
@@ -65,6 +68,8 @@ app.get("/api", (req, res) => {
   res.json({ message: "Hello World from server!" });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`[Server] Running on PORT ${process.env.PORT}`);
 });
+
+const wss = createWebSocketServer(server);
