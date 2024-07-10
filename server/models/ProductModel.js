@@ -25,6 +25,7 @@ const productSchema = new mongoose.Schema(
     price: {
       type: Number,
       default: 0,
+      required: [true, "Please provide product's price."],
     },
     category: String,
     stocks: {
@@ -34,6 +35,10 @@ const productSchema = new mongoose.Schema(
     availability: {
       type: Boolean,
       default: true,
+    },
+    is_deleted: {
+      type: Boolean,
+      default: false,
     },
     more_details: mongoose.Schema.Types.Mixed, // Store any JSON-like structure here
   },

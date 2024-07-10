@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 router.post("/add_product", upload.single("productFile"), async (req, res) => {
-  const { user_id, owner_id, name, description, category } = req.body;
+  const { user_id, owner_id, name, description, category, price } = req.body;
   try {
     const newProduct = new ProductModel({
       user_id,
@@ -24,7 +24,7 @@ router.post("/add_product", upload.single("productFile"), async (req, res) => {
       name,
       category,
       image_url: req.file.path,
-      //   price,
+      price,
       description,
     });
 
@@ -48,6 +48,7 @@ router.put("/edit/:productId", async (req, res) => {
       productName: name,
       productCategory: category,
       productDesc: description,
+      productPrice: price,
     } = req.body;
 
     console.log("***********************");
@@ -63,7 +64,7 @@ router.put("/edit/:productId", async (req, res) => {
     // Update the product by ID
     const updatedProduct = await ProductModel.findOneAndUpdate(
       { _id: productId },
-      { name, category, description },
+      { name, category, description, price },
       { new: true } // Return the updated document
     );
 
