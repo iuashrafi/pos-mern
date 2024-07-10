@@ -8,6 +8,7 @@ import Thumbnail from "../../components/Thumbnail";
 import Message from "../../components/Message";
 import { isAccessible } from "../../data";
 import ProductPreview from "./components/ProductPreview";
+import TypographyH1 from "../../components/typography/TypographyH1";
 const AddProduct = () => {
   const navigate = useNavigate();
   const { user, ready } = useContext(UserContext);
@@ -48,6 +49,7 @@ const AddProduct = () => {
     initialValues: {
       productName: "",
       productCategory: "",
+      productPrice: 0,
       productDesc: "",
       productFile: null,
     },
@@ -73,7 +75,7 @@ const AddProduct = () => {
       formData.append("user_id", user._id);
       formData.append("name", values.productName);
       formData.append("description", values.productDesc);
-      //   formData.append("price", values.price);
+      formData.append("price", values.productPrice);
       formData.append("category", values.productCategory);
       //   formData.append("stocks", values.stocks);
       //   formData.append("availability", values.availability);
@@ -119,10 +121,10 @@ const AddProduct = () => {
     return <Loading />;
   }
   return (
-    <div className="p-8 bg-white rounded-xl grid grid-cols-12">
+    <div className="p-8 bg-white border rounded-xl grid grid-cols-12">
       <div className="col-span-6">
         <form onSubmit={formik.handleSubmit} className="space-y-3">
-          <h1 className="text-xl font-semibold">Add Product</h1>
+          <TypographyH1>Add Product</TypographyH1>
 
           <label className="form-control w-full max-w-xs">
             <div className="label">
@@ -164,6 +166,25 @@ const AddProduct = () => {
               <div className="label">
                 <span className="label-text-alt text-error">
                   <span>{formik.errors.productCategory}</span>
+                </span>
+              </div>
+            ) : null}
+          </label>
+
+          <label className="form-control w-full max-w-xs">
+            <div className="label">
+              <span className="label-text">Product price</span>
+            </div>
+            <input
+              type="number"
+              placeholder="Price"
+              className="input input-bordered input-accent w-full max-w-xs"
+              {...formik.getFieldProps("productPrice")}
+            />
+            {formik.touched.productPrice && formik.errors.productPrice ? (
+              <div className="label">
+                <span className="label-text-alt text-error">
+                  <span>{formik.errors.productPrice}</span>
                 </span>
               </div>
             ) : null}
@@ -225,7 +246,7 @@ const AddProduct = () => {
         </form>
       </div>
       <div className="col-span-6 flex flex-col">
-        <h1 className="text-xl font-semibold">Product Preview</h1>
+        <TypographyH1>Preview</TypographyH1>
         <ProductPreview product={formik.values} file={uploadedImage} />
       </div>
     </div>

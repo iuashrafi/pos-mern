@@ -1,3 +1,5 @@
+import { IndianRupee } from "lucide-react";
+
 const ProductPreview = ({ product, file }) => {
   return (
     <div className="flex-grow flex items-center justify-center">
@@ -26,7 +28,12 @@ const ProductPreview = ({ product, file }) => {
               "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odit quod ipsum aspernatur id ducimus impedit perspiciatis quam provident, adipisci dignissimos."}
           </p>
           <div className="card-actions justify-end">
-            <button className="btn btn-primary">Add to cart</button>
+            <button className="btn bg-theme hover:bg-theme2 rounded-full text-white">
+              Add to cart
+              <span className="flex items-center">
+                ( <IndianRupee size={16} /> {product.productPrice} )
+              </span>
+            </button>
           </div>
         </div>
       </div>

@@ -17,6 +17,7 @@ const EditProductForm = ({ product: p }) => {
       productName: "" || p.name,
       productCategory: "" || p.category,
       productDesc: "" || p.description,
+      productPrice: 0 || p.price,
       // productFile: null,
     },
     validationSchema: EditProductSchema,
@@ -54,52 +55,72 @@ const EditProductForm = ({ product: p }) => {
   });
   return (
     <form onSubmit={formik.handleSubmit}>
-      <label className="form-control w-full max-w-xs">
-        <div className="label">
-          <span className="label-text">Product name</span>
-        </div>
-        <input
-          type="text"
-          placeholder="Name"
-          className="input input-bordered input-accent w-full max-w-xs"
-          {...formik.getFieldProps("productName")}
-        />
-        {formik.touched.productName && formik.errors.productName ? (
+      <div className="p-4 flex flex-col items-center">
+        <label className="form-control w-full">
           <div className="label">
-            <span className="label-text-alt text-error">
-              <span>{formik.errors.productName}</span>
-            </span>
+            <span className="label-text font-semibold">Product name</span>
           </div>
-        ) : null}
-      </label>
+          <input
+            type="text"
+            placeholder="Name"
+            className="input input-bordered input-accent w-full"
+            {...formik.getFieldProps("productName")}
+          />
+          {formik.touched.productName && formik.errors.productName ? (
+            <div className="label">
+              <span className="label-text-alt text-error">
+                <span>{formik.errors.productName}</span>
+              </span>
+            </div>
+          ) : null}
+        </label>
 
-      <label className="form-control w-full max-w-xs">
-        <div className="label">
-          <span className="label-text">Product Category</span>
-        </div>
-        <select
-          className="select select-accent w-full max-w-xs"
-          {...formik.getFieldProps("productCategory")}
-          defaultValue=""
-        >
-          <option disabled value="">
-            Select Category
-          </option>
-          <option value="Dessert">Dessert</option>
-          <option value="Breakfast">Breakfast</option>
-          <option value="Lunch">Lunch</option>
-          <option value="Dinner">Dinner</option>
-        </select>
-        {formik.touched.productCategory && formik.errors.productCategory ? (
+        <label className="form-control w-full ">
           <div className="label">
-            <span className="label-text-alt text-error">
-              <span>{formik.errors.productCategory}</span>
-            </span>
+            <span className="label-text font-semibold">Product Category</span>
           </div>
-        ) : null}
-      </label>
+          <select
+            className="select select-accent w-full "
+            {...formik.getFieldProps("productCategory")}
+            defaultValue=""
+          >
+            <option disabled value="">
+              Select Category
+            </option>
+            <option value="Dessert">Dessert</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+          </select>
+          {formik.touched.productCategory && formik.errors.productCategory ? (
+            <div className="label">
+              <span className="label-text-alt text-error">
+                <span>{formik.errors.productCategory}</span>
+              </span>
+            </div>
+          ) : null}
+        </label>
 
-      {/* <label className="form-control w-full max-w-xs">
+        <label className="form-control w-full ">
+          <div className="label">
+            <span className="label-text font-semibold">Product price</span>
+          </div>
+          <input
+            type="number"
+            placeholder="Price"
+            className="input input-bordered input-accent w-full "
+            {...formik.getFieldProps("productPrice")}
+          />
+          {formik.touched.productPrice && formik.errors.productPrice ? (
+            <div className="label">
+              <span className="label-text-alt text-error">
+                <span>{formik.errors.productPrice}</span>
+              </span>
+            </div>
+          ) : null}
+        </label>
+
+        {/* <label className="form-control w-full max-w-xs">
           <div className="label">
             <span className="label-text">Product Image</span>
           </div>
@@ -122,34 +143,41 @@ const EditProductForm = ({ product: p }) => {
             </div>
           ) : null}
         </label> */}
-      {/* display images here */}
-      <div>
-        {/* <Thumbnail file={uploadedImage} /> */}
-        <ThumbnailWithImage product={p} />
-      </div>
-
-      <label className="form-control w-full max-w-xs">
-        <div className="label">
-          <span className="label-text">Product Description</span>
+        {/* display images here */}
+        <div>
+          {/* <Thumbnail file={uploadedImage} /> */}
+          <ThumbnailWithImage product={p} />
         </div>
-        <textarea
-          className="textarea textarea-bordered textarea-accent h-24"
-          placeholder="Description"
-          {...formik.getFieldProps("productDesc")}
-        ></textarea>
-        {formik.touched.productDesc && formik.errors.productDesc ? (
+
+        <label className="form-control w-full">
           <div className="label">
-            <span className="label-text-alt text-error">
-              <span>{formik.errors.productDesc}</span>
+            <span className="label-text font-semibold">
+              Product Description
             </span>
           </div>
-        ) : null}
-      </label>
-      <button type="submit" className="btn btn-accent text-white">
+          <textarea
+            className="textarea textarea-bordered textarea-accent h-24"
+            placeholder="Description"
+            {...formik.getFieldProps("productDesc")}
+          ></textarea>
+          {formik.touched.productDesc && formik.errors.productDesc ? (
+            <div className="label">
+              <span className="label-text-alt text-error">
+                <span>{formik.errors.productDesc}</span>
+              </span>
+            </div>
+          ) : null}
+        </label>
+
+        {success && <Message message={success} />}
+        {error && <Message message={error} type="error" />}
+      </div>
+      <button
+        type="submit"
+        className="btn border-0 bg-theme hover:bg-theme w-full rounded-t-none rounded-b-xl text-white"
+      >
         Save
       </button>
-      {success && <Message message={success} />}
-      {error && <Message message={error} type="error" />}
     </form>
   );
 };

@@ -48,6 +48,10 @@ export const ProductSchema = Yup.object({
     .required("Required"),
   productDesc: Yup.string().optional(),
   productCategory: Yup.string().required("Required"),
+  productPrice: Yup.number()
+    .required("Required")
+    .positive("Must be positive")
+    .integer(),
   productFile: Yup.mixed().optional(),
 });
 
@@ -57,5 +61,9 @@ export const EditProductSchema = Yup.object({
     .required("Required"),
   productDesc: Yup.string().optional(),
   productCategory: Yup.string().required("Required"),
+  productPrice: Yup.number()
+    .required("Required")
+    .positive("Must be positive")
+    .integer(),
   // productFile: Yup.mixed().optional(),
 });
