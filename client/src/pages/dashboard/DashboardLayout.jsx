@@ -11,11 +11,7 @@ const AuthLayout = () => {
     }
   }, [user, ready, navigate]);
 
-  return (
-    <div className="w-full bg-blue-300 p-8">
-      <Outlet />
-    </div>
-  );
+  return <Outlet />;
 };
 
 export default AuthLayout;

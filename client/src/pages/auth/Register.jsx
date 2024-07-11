@@ -43,7 +43,7 @@ const Register = () => {
         <input
           type="text"
           placeholder="Name"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-full"
           {...formik.getFieldProps("name")}
         />
         {formik.touched.name && formik.errors.name ? (
@@ -58,7 +58,7 @@ const Register = () => {
         <input
           type="email"
           placeholder="Email"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-full"
           {...formik.getFieldProps("email")}
         />
         {formik.touched.email && formik.errors.email ? (
@@ -73,7 +73,7 @@ const Register = () => {
         <input
           type="password"
           placeholder="Password"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-full"
           {...formik.getFieldProps("password")}
         />
         {formik.touched.password && formik.errors.password ? (
@@ -88,7 +88,7 @@ const Register = () => {
         <input
           type="password"
           placeholder="Confirm Password"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-full"
           {...formik.getFieldProps("confirmPassword")}
         />
         {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
@@ -103,7 +103,7 @@ const Register = () => {
       <button
         type="submit"
         disabled={formik.isSubmitting}
-        className="btn btn-neutral"
+        className="btn rounded-full text-white bg-theme hover:bg-theme2"
       >
         Register
       </button>

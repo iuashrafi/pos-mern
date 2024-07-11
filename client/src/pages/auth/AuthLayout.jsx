@@ -6,7 +6,7 @@ const AuthLayout = () => {
     return <Navigate to="/" />;
   }
   return (
-    <div className="w-full bg-blue-300 p-8">
+    <div className=" bg-white border p-8 rounded-lg">
       <Outlet />
     </div>
   );

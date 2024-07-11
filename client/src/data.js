@@ -1,11 +1,19 @@
 export const BRAND_NAME = "POS";
 export const BACKEND_URL = "http://localhost:3000";
 
+const ShopIcon = () => {
+  return " ICON";
+};
 export const dashboardFeatures = [
-  { display_name: "Shop", link: "/shop", accessBy: ["ADMIN"] },
+  {
+    display_name: "Shop",
+    link: "/shop",
+    accessBy: ["ADMIN"],
+    icon: ShopIcon,
+  },
   { display_name: "Add Product", link: "/add-product", accessBy: ["ADMIN"] },
   {
-    display_name: "Edit/Delete Products",
+    display_name: "Display Products",
     link: "/display-products",
     accessBy: ["ADMIN"],
   },

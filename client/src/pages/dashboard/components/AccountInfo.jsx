@@ -4,10 +4,12 @@ import { UserContext } from "../../../UserContext";
 const AccountInfo = () => {
   const { user } = useContext(UserContext);
   return (
-    <div className="card">
-      <div className="card-body text-xl font-semibold">
+    <div className="py-6">
+      <div className="text-xl font-semibold">
         Hey, {user?.name} !<br />
-        You are logged in as {user?.user_role}
+        <span className="font-medium text-lg">
+          You are logged in as {user?.user_role}
+        </span>
       </div>
     </div>
   );

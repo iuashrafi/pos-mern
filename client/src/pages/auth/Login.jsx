@@ -1,12 +1,12 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import { useFormik } from "formik";
 import { LoginSchema } from "../../lib/schemas";
 import fetchAPI from "../../lib/fetchAPI";
 import { UserContext } from "../../UserContext";
 export const Login = () => {
   // const { setUser } = useContext(UserContext);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
@@ -30,7 +30,9 @@ export const Login = () => {
           setSuccess("Login successfully! Redirecting...");
           formik.resetForm();
           setTimeout(() => {
-            navigate("/");
+            // navigate("/");
+            window.location.reload();
+            // return redirect("/");
           }, 1000);
         })
         .catch((error) => {
@@ -49,7 +51,7 @@ export const Login = () => {
         <input
           type="email"
           placeholder="Email"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full rounded-full"
           {...formik.getFieldProps("email")}
         />
         {formik.touched.email && formik.errors.email ? (
@@ -64,7 +66,7 @@ export const Login = () => {
         <input
           type="password"
           placeholder="Password"
-          className="input input-bordered w-full"
+          className="input input-bordered w-full  rounded-full "
           {...formik.getFieldProps("password")}
         />
         {formik.touched.password && formik.errors.password ? (
@@ -78,7 +80,7 @@ export const Login = () => {
       <button
         type="submit"
         disabled={formik.isSubmitting}
-        className="btn btn-neutral"
+        className="btn rounded-full text-white bg-theme hover:bg-theme2"
       >
         Sign in
       </button>
