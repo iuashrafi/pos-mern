@@ -1,18 +1,57 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import fetchAPI from "../../lib/fetchAPI";
-import { useCurrentUser } from "../../hooks/useCurrentUser";
 import OrderStatus from "./components/OrderStatus";
 import OrderViewModal from "./components/OrderViewModal";
+import { UserContext } from "../../UserContext";
+import TypographyH1 from "../../components/typography/TypographyH1";
+import { EllipsisVertical } from "lucide-react";
 
 const Order = () => {
-  const user = useCurrentUser();
+  const { user } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
+
   useEffect(() => {
     if (user) fetchOrders();
   }, [user]);
 
+  useEffect(() => {
+    if (user) {
+      const ws = new WebSocket("ws://localhost:3000");
+
+      ws.onopen = () => {
+        console.log("Connected to WebSocket server");
+      };
+      ws.onmessage = (event) => {
+        console.log("Received message on ws client : ", event.data);
+
+        const { action, newOrder } = JSON.parse(event.data);
+        if (action === "new_order") {
+          setOrders([...orders, newOrder]);
+        } else if (action === "updated_order") {
+          // currently, we are updating the order's status only
+          const updatedOrders = orders.map((order) => {
+            if (order._id === newOrder._id) {
+              order.status = newOrder.status;
+            }
+            return order;
+          });
+
+          setOrders(updatedOrders);
+        }
+      };
+
+      ws.onclose = () => {
+        console.log("WebSocket connection closed");
+      };
+
+      //  return () => {
+      //    ws.close();
+      //  };
+    }
+  }, [orders]);
+
   const fetchOrders = () => {
-    fetchAPI("/orders/" + user._id, { method: "GET" })
+    fetchAPI("/orders/" + user.owner_id, { method: "GET" })
       .then((data) => {
         setOrders(data);
         console.log("orders=", data);
@@ -43,11 +82,11 @@ const Order = () => {
       });
   };
   return (
-    <div className="p-8">
-      <h1>Orders</h1>
-      <div className="">
-        <table className="table">
-          <thead>
+    <div className="bg-white border rounded-xl p-4">
+      <TypographyH1>Orders</TypographyH1>
+      <div className="bg-green-400 mt-4">
+        <table className=" bg-white w-full table-auto">
+          <thead className="border-b">
             <tr>
               <th>Order ID</th>
               <th>Customer</th>
@@ -57,7 +96,7 @@ const Order = () => {
               <th></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="font-normal text">
             {orders.map((order, index) => (
               <tr key={index}>
                 <th>{index + 1}</th>
@@ -78,7 +117,9 @@ const Order = () => {
                   />
                 </th>
                 <th>
-                  <button className="btn btn-sm">...</button>
+                  <button className="btn btn-sm btn-circle">
+                    <EllipsisVertical size={16} />
+                  </button>
                 </th>
               </tr>
             ))}

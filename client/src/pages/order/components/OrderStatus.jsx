@@ -7,18 +7,37 @@ const OrderStatus = ({ order, currentStatus, handleStatusChange }) => {
     "DELIVERED",
     "CANCELLED",
   ];
+
+  const getStatusStyle = (status) => {
+    if (status === "WAITING") {
+      return " bg-yellow-500 hover:bg-yellow-500/95 ";
+    } else if (status === "PROCESSING") {
+      return " bg-green-400 hover:bg-green-400/95 ";
+    } else if (status === "PROCESSED") {
+      return " bg-green-400 hover:bg-green-400/95 ";
+    } else if (status === "DELIVERED") {
+      return " bg-blue-500 hover:bg-blue-500/95 ";
+    } else if (status === "CANCELLED") {
+      return " bg-red-500 hover:bg-red-500/95 ";
+    }
+    return " ";
+  };
+
   return (
-    <div class=" dropdown">
-      <div
-        tabIndex={0}
+    <div className="dropdown">
+      <button
+        tabIndex={order._id}
         role="button"
-        className="btn btn-sm rounded-full m-1 text-xs btn-"
+        className={
+          "btn btn-sm rounded-full m-1 text-xs text-white border-none" +
+          getStatusStyle(currentStatus)
+        }
       >
         {currentStatus}
-      </div>
+      </button>
       <ul
-        tabIndex={0}
-        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+        tabIndex={order._id}
+        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 text-gray-800"
       >
         {statuses.map((status) => {
           return (
