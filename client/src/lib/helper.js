@@ -6,3 +6,12 @@ export const calculateTotal = (cartItems) => {
   }
   return total;
 };
+
+// user in Invoice Document and OrderViewModal
+export const calculateTotalCost = (order) => {
+  let totalCost = 0;
+  order.cartItems.forEach((item) => {
+    totalCost += item.price * item.qt;
+  });
+  return totalCost;
+};
