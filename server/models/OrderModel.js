@@ -44,6 +44,9 @@ const orderSchema = new mongoose.Schema(
           type: Number,
           required: [true, "Please provide the cost per unit."],
         },
+        notes: {
+          type: String,
+        },
       },
     ],
   },

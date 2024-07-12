@@ -50,27 +50,18 @@ router.get("/:user_id", async (req, res) => {
     // const status = req.params.status || "WAITING";
     const orders = await Order.find({
       user_id,
-    });
+    })
+      .populate({
+        path: "cartItems.id",
+        model: "Product",
+      })
+      .exec();
+
     res.status(200).json(orders);
   } catch (error) {
     console.error("Error fetching orders :", error);
     res.status(500).json({ error: "Error while fetching orders" });
   }
-
-  // try {
-  //   const userId = req.params.user_id;
-  //   const status = req.query.status;
-  //   const filter = { user_id: userId };
-  //   if (status) {
-  //     filter.status = status;
-  //   }
-  //   // Find orders with the specified user_id
-  //   const orders = await Order.find(filter);
-  //   res.status(200).json(orders);
-  // } catch (error) {
-  //   console.error("Error fetching orders:", error);
-  //   res.status(500).json({ error: "Internal Server Error" });
-  // }
 });
 
 /**
